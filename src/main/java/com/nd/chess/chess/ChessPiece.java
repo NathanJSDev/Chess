@@ -16,6 +16,7 @@ public class ChessPiece extends Piece {
 
     public ChessPiece(Board board, Color color, Image img) {
         super(board);
+        this.img = img;
         this.color = color;
     }
 

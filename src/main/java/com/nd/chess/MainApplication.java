@@ -21,6 +21,7 @@ public class MainApplication extends Application {
         stage.setTitle("Chess");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("images/logo.jpg")));
         stage.setScene(getScene("views/Main.fxml"));
+        stage.setResizable(false);
         stage.show();
     }
 

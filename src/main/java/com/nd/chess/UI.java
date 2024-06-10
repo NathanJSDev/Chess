@@ -58,19 +58,27 @@ public final class UI {
                     new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             rt.setPrefWidth(100);
             rt.setPrefHeight(100);
-            rt.setOnMouseClicked(e -> {
-                System.out.println("im clicked");
-            });
+            rt.setMaxWidth(100);
+            rt.setMaxHeight(100);
 
             if (piece.getImg() != null && piece.getImg().isError()) {
                 r.getChildren().add(rt);
+                rt.setOnMouseClicked(e -> {
+                    // System.out.println("im clicked");
+                    System.out.println(piece.getColor() + ", " + piece.toString());
+                });
             } else {
                 ImageView iv = new ImageView(piece.getImg());
                 iv.setFitWidth(100);
                 iv.setFitHeight(100);
 
                 rt.setGraphic(iv);
-                rt.setContentDisplay(ContentDisplay.LEFT);
+                rt.setContentDisplay(ContentDisplay.CENTER);
+                rt.setOnMouseClicked(e -> {
+                    // System.out.println("im clicked");
+                    System.out.println(piece.getColor() + ", " + piece.toString());
+                });
+
                 r.getChildren().add(rt);
             }
         } else {
@@ -81,7 +89,11 @@ public final class UI {
                     new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             rt.setPrefWidth(100);
             rt.setPrefHeight(100);
-            rt.setOnMouseClicked(e->{System.out.println("im clicked");});
+            rt.setMaxWidth(100);
+            rt.setMaxHeight(100);
+            rt.setOnMouseClicked(e -> {
+                System.out.println("has nothing here!");
+            });
             r.getChildren().add(rt);
         }
 

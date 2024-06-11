@@ -26,17 +26,12 @@ public class ChessPosition {
     }
 
     protected Position toPosition() {
-        // System.out.println("ROW:" + (int) ('h' - row) + ", COL:" + (column - 'a'));
         return new Position((int) ('h' - row), column - 'a');
     }
 
     public static ChessPosition fromPosition(Position position) {
         char column = (char) ('h' - position.getRow());
         int row = 8 - position.getColumn();
-
-        System.out.println("ROW: " + position.getColumn() + ", " + (8 - position.getColumn()));
-        System.out.println("COL: " + position.getRow() + ", " + (char) ('h' - position.getRow()));
-
         return new ChessPosition(column, row);
     }
 

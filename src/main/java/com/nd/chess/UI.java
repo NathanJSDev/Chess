@@ -32,36 +32,43 @@ public final class UI {
         GridPane pane = new GridPane();
         // pane.setGridLinesVisible(true);
         pane.setStyle("-fx-background-color:#acd700;");
-        String style = "#00acd7";
+        String style = "";
 
         for (int i = 0; i < pieces.length; i++) {
             for (int j = 0; j < pieces[i].length; j++) {
-                if (j % 2 == 0) {
-                    style = "-fx-background-color:#ffd599;";
-                    if (i % 2 == 0) {
-                        style = "-fx-background-color:#b16e41;";
-                    }
-                } else {
-                    style = "-fx-background-color:#b16e41;";
-                    if (i % 2 == 0) {
-                        style = "-fx-background-color:#ffd599;";
-                    }
-                }
-
-                if (pieces[i][j] != null && pieces[i][j].getColor() == com.nd.chess.chess.Color.WHITE) {
-                    style += "-fx-text-fill:#fff;";
-                } else if (pieces[i][j] != null && pieces[i][j].getColor() == com.nd.chess.chess.Color.WHITE) {
-                    style += "-fx-text-fill:#000;";
-                }
-
+                if(pieces[i][j]!=null){
+                    style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0, MainApplication.c1, pieces[i][j].getColor());
+                }else style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0, MainApplication.c1, com.nd.chess.chess.Color.BLACK);
                 Position position = new Position(i, j);
-                // System.out.println(position);
 
                 pane.add(printPiece(pieces[i][j], style, position), i, j);
             }
         }
         lastUpdatedPane = pane;
         return pane;
+    }
+
+    private static String setStyle(int i, int j, String bg0, String bg1, String c0, String c1, com.nd.chess.chess.Color c){
+        String style = "";
+        if (j % 2 == 0) {
+            style = "-fx-background-color:"+bg0+";";
+            if (i % 2 == 0) {
+                style = "-fx-background-color:"+bg1+";";
+            }
+        } else {
+            style = "-fx-background-color:"+bg1+";";
+            if (i % 2 == 0) {
+                style = "-fx-background-color:"+bg0+";";
+            }
+        }
+
+        if (c == com.nd.chess.chess.Color.WHITE) {
+            style += "-fx-text-fill:"+c0+";";
+        } else if (c == com.nd.chess.chess.Color.WHITE) {
+            style += "-fx-text-fill:"+c1+";";
+        }
+
+        return style;
     }
 
     private static Pane printPiece(ChessPiece piece, String style, Position position) {
@@ -79,22 +86,22 @@ public final class UI {
             rt.setOnMouseClicked(e -> {
                 if (selectedOriginPiece == null || selectedOriginPiece == position) {
                     selectedOriginPiece = position;
-                    rt.setStyle("-fx-background-color:#00acd7;");
+                    rt.setStyle("-fx-background-color:"+MainApplication.bgs+";");
                 } else {
                     rt.setStyle(style);
 
                     try {
                         ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
-                        System.out.println(p);
+                        System.out.println("Has captured one piece?: "+(p!=null));
                     } catch (Exception error) {
                         System.out.println(error.getMessage());
                     }
                     selectedOriginPiece = null;
-                    System.out.println(piece.getColor() + ", " + piece.toString() + ", " + position);
                     MainController.needsUpdate = true;
-                }
+                    }
+                // System.out.println(piece.getColor() + ", " + piece.toString() + ", " + position);
             });
-            
+
             if(piece.getImg() == null){
                 rt.setText(piece.toString());
                 r.getChildren().add(rt);
@@ -125,7 +132,7 @@ public final class UI {
                     
                     try {
                         ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
-                        System.out.println(p);
+                        System.out.println("Has captured one piece?: "+(p!=null));
                     } catch (Exception error) {
                         System.out.println(error.getMessage());
                     }

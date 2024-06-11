@@ -6,6 +6,7 @@ import java.util.Scanner;
 import com.nd.chess.boardgame.Position;
 import com.nd.chess.chess.ChessPiece;
 import com.nd.chess.chess.ChessPosition;
+import com.nd.chess.views.MainController;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -24,6 +25,8 @@ public final class UI {
 
     public static Position selectedOriginPiece;
     public static ChessPiece currentCapturedPiece;
+
+    public static GridPane lastUpdatedPane;
 
     public static GridPane printBoard(ChessPiece[][] pieces) {
         GridPane pane = new GridPane();
@@ -57,6 +60,7 @@ public final class UI {
                 pane.add(printPiece(pieces[i][j], style, position), i, j);
             }
         }
+        lastUpdatedPane = pane;
         return pane;
     }
 
@@ -81,9 +85,6 @@ public final class UI {
                         rt.setStyle("-fx-background-color:#00acd7;");
                     } else {
                         rt.setStyle(style);
-                        if(selectedOriginPiece == position){
-                            rt.setStyle("-fx-background-color:#00acd7;");
-                        }
 
                         try {
                             ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
@@ -93,6 +94,7 @@ public final class UI {
                         }
                         selectedOriginPiece = null;
                         System.out.println(piece.getColor() + ", " + piece.toString() + ", " + position);
+                        MainController.needsUpdate = true;
                     }
                 });
             } else {
@@ -108,9 +110,6 @@ public final class UI {
                         rt.setStyle("-fx-background-color:#00acd7;");
                     } else {
                         rt.setStyle(style);
-                        if(selectedOriginPiece == position){
-                            rt.setStyle("-fx-background-color:#00acd7;");
-                        }
 
                         try {
                             ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
@@ -120,6 +119,7 @@ public final class UI {
                         }
                         selectedOriginPiece = null;
                         System.out.println(piece.getColor() + ", " + piece.toString() + ", " + position);
+                        MainController.needsUpdate = true;
                     }
                 });
 
@@ -141,9 +141,7 @@ public final class UI {
                     rt.setStyle("-fx-background-color:#00acd7;");
                 } else {
                     rt.setStyle(style);
-                    if(selectedOriginPiece == position){
-                        rt.setStyle("-fx-background-color:#00acd7;");
-                    }
+                    
                     try {
                         ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
                         System.out.println(p);
@@ -151,6 +149,7 @@ public final class UI {
                         System.out.println(error.getMessage());
                     }
                     selectedOriginPiece = null;
+                    MainController.needsUpdate = true;
                 }
             });
             r.getChildren().add(rt);

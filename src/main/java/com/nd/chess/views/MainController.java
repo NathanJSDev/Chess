@@ -17,6 +17,8 @@ public class MainController implements Initializable {
     @FXML
     private VBox screen;
 
+    public static boolean needsUpdate = false;
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         ChessMatch cm = new ChessMatch();
@@ -29,11 +31,14 @@ public class MainController implements Initializable {
             @Override
             public void handle(long arg0) {
                 try {
-                    Thread.sleep(200);
-                    screen.getChildren().set(0, UI.printBoard(MainApplication.runningMatch.getPieces()));
-
-                    System.err.println(UI.selectedOriginPiece);
-                    System.err.println(UI.currentCapturedPiece);
+                    if(needsUpdate){
+                        screen.getChildren().set(0, UI.printBoard(MainApplication.runningMatch.getPieces()));
+                        needsUpdate = false;
+    
+                        System.err.println(UI.selectedOriginPiece);
+                        System.err.println(UI.currentCapturedPiece);
+                        System.out.println("--------------------------------------------------------");
+                    }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }

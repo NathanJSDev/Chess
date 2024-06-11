@@ -76,27 +76,30 @@ public final class UI {
             rt.setPrefHeight(100);
             rt.setMaxWidth(100);
             rt.setMaxHeight(100);
+            rt.setOnMouseClicked(e -> {
+                if (selectedOriginPiece == null || selectedOriginPiece == position) {
+                    selectedOriginPiece = position;
+                    rt.setStyle("-fx-background-color:#00acd7;");
+                } else {
+                    rt.setStyle(style);
 
-            if (piece.getImg() != null && piece.getImg().isError()) {
-                r.getChildren().add(rt);
-                rt.setOnMouseClicked(e -> {
-                    if (selectedOriginPiece == null || selectedOriginPiece == position) {
-                        selectedOriginPiece = position;
-                        rt.setStyle("-fx-background-color:#00acd7;");
-                    } else {
-                        rt.setStyle(style);
-
-                        try {
-                            ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
-                            System.out.println(p);
-                        } catch (Exception error) {
-                            System.out.println(error.getMessage());
-                        }
-                        selectedOriginPiece = null;
-                        System.out.println(piece.getColor() + ", " + piece.toString() + ", " + position);
-                        MainController.needsUpdate = true;
+                    try {
+                        ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
+                        System.out.println(p);
+                    } catch (Exception error) {
+                        System.out.println(error.getMessage());
                     }
-                });
+                    selectedOriginPiece = null;
+                    System.out.println(piece.getColor() + ", " + piece.toString() + ", " + position);
+                    MainController.needsUpdate = true;
+                }
+            });
+            
+            if(piece.getImg() == null){
+                rt.setText(piece.toString());
+                r.getChildren().add(rt);
+            }else if (piece.getImg() != null && piece.getImg().isError()) {
+                r.getChildren().add(rt);
             } else {
                 ImageView iv = new ImageView(piece.getImg());
                 iv.setFitWidth(80);
@@ -104,25 +107,6 @@ public final class UI {
 
                 rt.setGraphic(iv);
                 rt.setContentDisplay(ContentDisplay.CENTER);
-                rt.setOnMouseClicked(e -> {
-                    if (selectedOriginPiece == null || selectedOriginPiece == position) {
-                        selectedOriginPiece = position;
-                        rt.setStyle("-fx-background-color:#00acd7;");
-                    } else {
-                        rt.setStyle(style);
-
-                        try {
-                            ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
-                            System.out.println(p);
-                        } catch (Exception error) {
-                            System.out.println(error.getMessage());
-                        }
-                        selectedOriginPiece = null;
-                        System.out.println(piece.getColor() + ", " + piece.toString() + ", " + position);
-                        MainController.needsUpdate = true;
-                    }
-                });
-
                 r.getChildren().add(rt);
             }
         } else {
@@ -136,10 +120,7 @@ public final class UI {
             rt.setMaxWidth(100);
             rt.setMaxHeight(100);
             rt.setOnMouseClicked(e -> {
-                if (selectedOriginPiece == null) {
-                    selectedOriginPiece = position;
-                    rt.setStyle("-fx-background-color:#00acd7;");
-                } else {
+                if (selectedOriginPiece != null) {
                     rt.setStyle(style);
                     
                     try {

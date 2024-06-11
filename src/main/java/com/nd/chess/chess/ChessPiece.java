@@ -5,7 +5,7 @@ import com.nd.chess.boardgame.Piece;
 
 import javafx.scene.image.Image;
 
-public class ChessPiece extends Piece {
+public abstract class ChessPiece extends Piece {
     
     private Color color;
 

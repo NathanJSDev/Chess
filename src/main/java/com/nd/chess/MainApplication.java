@@ -8,9 +8,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import com.nd.chess.chess.ChessMatch;
+
 public class MainApplication extends Application {
 
     public static Scene[] scenes;
+
+    public static ChessMatch runningMatch;
 
     public Scene getScene(String name) throws IOException{
         return new Scene(FXMLLoader.load(MainApplication.class.getResource(name)));

@@ -2,6 +2,7 @@ package com.nd.chess.chess;
 
 import com.nd.chess.MainApplicationLauncher;
 import com.nd.chess.boardgame.Board;
+import com.nd.chess.boardgame.Piece;
 import com.nd.chess.boardgame.Position;
 import com.nd.chess.chess.pieces.King;
 import com.nd.chess.chess.pieces.Rook;
@@ -29,13 +30,35 @@ public class ChessMatch {
         return matriz;
     }
 
+    public ChessPiece performChessMove(Position origin, Position target) {
+        validateOriginPosition(origin);
+
+        Piece capturedPiece = makeMove(origin, target);
+
+        return (ChessPiece) capturedPiece;
+    }
+
+    private void validateOriginPosition(Position pos) {
+        if (!board.ThereIsAPiece(pos)) {
+            throw new ChessException("There is no piece on origin position!");
+        }
+    }
+
+    private Piece makeMove(Position origin, Position target) {
+        Piece p = board.removePiece(origin);
+        Piece c = board.removePiece(target);
+
+        board.placePiece(p, target);
+        return c;
+    }
+
     private void placeNewPiece(char column, int row, ChessPiece piece) {
         board.placePiece(piece, new ChessPosition(column, row).toPosition());
     }
 
     private void initialSetup(){
         // WHITE PIECES
-        placeNewPiece('c', 5, new Rook(board, Color.WHITE));
+        placeNewPiece('h', 6, new Rook(board, Color.WHITE));
         board.placePiece(new ChessPiece(board, Color.WHITE, new Image(MainApplicationLauncher.class.getResourceAsStream("images/pieces/knight-WHITE.png"))), new Position(1, 7));
         board.placePiece(new ChessPiece(board, Color.WHITE, new Image(MainApplicationLauncher.class.getResourceAsStream("images/pieces/bishop-WHITE.png"))), new Position(2, 7));
         board.placePiece(new ChessPiece(board, Color.WHITE, new Image(MainApplicationLauncher.class.getResourceAsStream("images/pieces/queen-WHITE.png"))), new Position(3, 7));

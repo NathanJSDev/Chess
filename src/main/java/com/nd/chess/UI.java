@@ -1,6 +1,11 @@
 package com.nd.chess;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+import com.nd.chess.boardgame.Position;
 import com.nd.chess.chess.ChessPiece;
+import com.nd.chess.chess.ChessPosition;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -16,6 +21,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public final class UI {
+
+    public static Position selectedOriginPiece;
+    public static ChessPiece currentCapturedPiece;
+
     public static GridPane printBoard(ChessPiece[][] pieces) {
         GridPane pane = new GridPane();
         // pane.setGridLinesVisible(true);
@@ -42,13 +51,16 @@ public final class UI {
                     style += "-fx-text-fill:#000;";
                 }
 
-                pane.add(printPiece(pieces[i][j], style), i, j);
+                Position position = new Position(i, j);
+                // System.out.println(position);
+
+                pane.add(printPiece(pieces[i][j], style, position), i, j);
             }
         }
         return pane;
     }
 
-    private static Pane printPiece(ChessPiece piece, String style) {
+    private static Pane printPiece(ChessPiece piece, String style, Position position) {
         Pane r = new Pane();
         if (piece != null) {
             Button rt = new Button();
@@ -64,19 +76,51 @@ public final class UI {
             if (piece.getImg() != null && piece.getImg().isError()) {
                 r.getChildren().add(rt);
                 rt.setOnMouseClicked(e -> {
-                    // System.out.println("im clicked");
-                    System.out.println(piece.getColor() + ", " + piece.toString());
+                    if (selectedOriginPiece == null || selectedOriginPiece == position) {
+                        selectedOriginPiece = position;
+                        rt.setStyle("-fx-background-color:#00acd7;");
+                    } else {
+                        rt.setStyle(style);
+                        if(selectedOriginPiece == position){
+                            rt.setStyle("-fx-background-color:#00acd7;");
+                        }
+
+                        try {
+                            ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
+                            System.out.println(p);
+                        } catch (Exception error) {
+                            System.out.println(error.getMessage());
+                        }
+                        selectedOriginPiece = null;
+                        System.out.println(piece.getColor() + ", " + piece.toString() + ", " + position);
+                    }
                 });
             } else {
                 ImageView iv = new ImageView(piece.getImg());
-                iv.setFitWidth(100);
-                iv.setFitHeight(100);
+                iv.setFitWidth(80);
+                iv.setFitHeight(80);
 
                 rt.setGraphic(iv);
                 rt.setContentDisplay(ContentDisplay.CENTER);
                 rt.setOnMouseClicked(e -> {
-                    // System.out.println("im clicked");
-                    System.out.println(piece.getColor() + ", " + piece.toString());
+                    if (selectedOriginPiece == null || selectedOriginPiece == position) {
+                        selectedOriginPiece = position;
+                        rt.setStyle("-fx-background-color:#00acd7;");
+                    } else {
+                        rt.setStyle(style);
+                        if(selectedOriginPiece == position){
+                            rt.setStyle("-fx-background-color:#00acd7;");
+                        }
+
+                        try {
+                            ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
+                            System.out.println(p);
+                        } catch (Exception error) {
+                            System.out.println(error.getMessage());
+                        }
+                        selectedOriginPiece = null;
+                        System.out.println(piece.getColor() + ", " + piece.toString() + ", " + position);
+                    }
                 });
 
                 r.getChildren().add(rt);
@@ -92,11 +136,39 @@ public final class UI {
             rt.setMaxWidth(100);
             rt.setMaxHeight(100);
             rt.setOnMouseClicked(e -> {
-                System.out.println("has nothing here!");
+                if (selectedOriginPiece == null) {
+                    selectedOriginPiece = position;
+                    rt.setStyle("-fx-background-color:#00acd7;");
+                } else {
+                    rt.setStyle(style);
+                    if(selectedOriginPiece == position){
+                        rt.setStyle("-fx-background-color:#00acd7;");
+                    }
+                    try {
+                        ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
+                        System.out.println(p);
+                    } catch (Exception error) {
+                        System.out.println(error.getMessage());
+                    }
+                    selectedOriginPiece = null;
+                }
             });
             r.getChildren().add(rt);
         }
 
         return r;
+    }
+
+    public static ChessPosition readChessPosition(Scanner sc) {
+        try {
+            String s = sc.nextLine();
+
+            char column = s.charAt(0);
+            int row = (int) s.charAt(1);
+
+            return new ChessPosition(column, row);
+        } catch (Exception e) {
+            throw new InputMismatchException("Error reading ChessPosition: Valid values are form 'a1' to 'h8'");
+        }
     }
 }

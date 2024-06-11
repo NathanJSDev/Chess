@@ -26,18 +26,23 @@ public class ChessPosition {
     }
 
     protected Position toPosition() {
-        System.out.println((row - 'a')  + ", " + (column - 'a'));
-        return new Position((row - 'a'), column - 'a');
+        // System.out.println("ROW:" + (int) ('h' - row) + ", COL:" + (column - 'a'));
+        return new Position((int) ('h' - row), column - 'a');
     }
 
-    protected static ChessPosition fromPosition(Position position) {
-        System.out.println((char) ('a' - position.getColumn()) + ", " + (8 - position.getRow()));
-        return new ChessPosition((char) ('a' - position.getColumn()), 8 - position.getRow());
+    public static ChessPosition fromPosition(Position position) {
+        char column = (char) ('h' - position.getRow());
+        int row = 8 - position.getColumn();
+
+        System.out.println("ROW: " + position.getColumn() + ", " + (8 - position.getColumn()));
+        System.out.println("COL: " + position.getRow() + ", " + (char) ('h' - position.getRow()));
+
+        return new ChessPosition(column, row);
     }
 
     @Override
     public String toString() {
-        return "Pos [" + column + row + "]";
+        return "Pos [" + column + "," + (int) row + "]";
     }
 
 }

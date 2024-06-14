@@ -18,9 +18,13 @@ public class MainApplication extends Application {
 
     // background tile colors
     public static String bg0 = "#ffffff"; // recomended "#ffd599", "#ffffff", "#ffffff", "#ffffff", "#ffffff"
-    public static String bg1 = "#c7670c"; // recomended "#b16e41", "#24a540", "#cea863", "#787878", "#c76f0c"
+    public static String bg1 = "#787878"; // recomended "#b16e41", "#24a540", "#cea863", "#787878", "#c76f0c"
     // background tile color : on selected
-    public static String bgs = "#75b2e9"; // recomended "#00acd7", "#de0033", "#00acd7", "#00acd7", "#00acd7"
+    public static String bgs = "#75b2e9"; // recomended "#75b2e9", "#de0033", "#00acd7", "#00acd7", "#00acd7"
+    // background tile color : on can move to
+    public static String bgma = "#00acd7"; // recomended "#00acd7", "#de0033", "#00acd7", "#00acd7", "#00acd7"
+    // background tile color : on can move to
+    public static String bgmao = "#de0033"; // recomended "#de0033", "#00acd7", "#00acd7", "#00acd7", "#00acd7"
     // on tile text colors
     public static String c0 = "#ffffff"; // recomended "#ffffff"
     public static String c1 = "#000000"; // recomended "#000000"

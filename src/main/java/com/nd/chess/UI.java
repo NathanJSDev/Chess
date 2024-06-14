@@ -48,6 +48,37 @@ public final class UI {
         return pane;
     }
 
+    public static GridPane printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
+        GridPane pane = new GridPane();
+        pane.setStyle("-fx-background-color:#00acd7;");
+
+        String style = "";
+
+        for (int i = 0; i < pieces.length; i++) {
+            for (int j = 0; j < pieces[i].length; j++) {
+
+                if (pieces[i][j] != null && !possibleMoves[i][j]) {
+                    style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0, MainApplication.c1, pieces[i][j].getColor());
+                } else if (pieces[i][j] == null && !possibleMoves[i][j]) {
+                    style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0, MainApplication.c1, com.nd.chess.chess.Color.BLACK);
+                } else if (pieces[i][j] != null && possibleMoves[i][j]) {
+                    style = setStyle(MainApplication.bgmao, MainApplication.c0);
+                } else {
+                    style = setStyle(MainApplication.bgma, MainApplication.c0);
+                }
+
+                Position position = new Position(i, j);
+                pane.add(printPiece(pieces[i][j], style, position), i, j);
+            }
+        }
+        lastUpdatedPane = pane;
+        return pane;
+    }
+
+    private static String setStyle(String bgma, String c0) {
+        return "-fx-background-color:" + bgma + ";-fx-text-fill:" + c0 + ";";
+    }
+
     private static String setStyle(int i, int j, String bg0, String bg1, String c0, String c1, com.nd.chess.chess.Color c){
         String style = "";
         if (j % 2 == 0) {
@@ -87,19 +118,22 @@ public final class UI {
                 if (selectedOriginPiece == null || selectedOriginPiece == position) {
                     selectedOriginPiece = position;
                     rt.setStyle("-fx-background-color:"+MainApplication.bgs+";");
+
+                    MainController.showPossibleTiles = true;
+                    MainController.needsUpdate = true;
                 } else {
                     rt.setStyle(style);
 
                     try {
-                        ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
-                        System.out.println("Has captured one piece?: "+(p!=null));
+                        currentCapturedPiece = MainApplication.runningMatch.performChessMove(selectedOriginPiece,
+                                position);
                     } catch (Exception error) {
                         System.out.println(error.getMessage());
                     }
+
                     selectedOriginPiece = null;
                     MainController.needsUpdate = true;
-                    }
-                // System.out.println(piece.getColor() + ", " + piece.toString() + ", " + position);
+                }
             });
 
             if(piece.getImg() == null){
@@ -131,11 +165,12 @@ public final class UI {
                     rt.setStyle(style);
                     
                     try {
-                        ChessPiece p = MainApplication.runningMatch.performChessMove(selectedOriginPiece, position);
-                        System.out.println("Has captured one piece?: "+(p!=null));
+                        currentCapturedPiece = MainApplication.runningMatch.performChessMove(selectedOriginPiece,
+                                position);
                     } catch (Exception error) {
                         System.out.println(error.getMessage());
                     }
+
                     selectedOriginPiece = null;
                     MainController.needsUpdate = true;
                 }

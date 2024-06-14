@@ -6,20 +6,23 @@ import java.util.ResourceBundle;
 import com.nd.chess.MainApplication;
 import com.nd.chess.UI;
 import com.nd.chess.chess.ChessMatch;
-
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-public class MainController implements Initializable {
+public class MainController implements Initializable{
+
     @FXML
     private VBox screen;
 
     /**
-     * If it is setted to {@code true} the screen will be updated and it will be automatically setted to {@code false}
+     * When it will settle to {@code true}, the screen will be updated, and it will be automatically settled to {@code false}.
     */
     public static boolean needsUpdate = false;
+
+    public static boolean showPossibleTiles = false;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -41,12 +44,18 @@ public class MainController implements Initializable {
             public void handle(long arg0) {
                 // This variable are updated on a board tile is clicked
                 if(needsUpdate){
-                    // This code convert the modified chess board to a grid pane and set it on
-                    // the child position 0 on the 'main frame' (screen).
-                    screen.getChildren().set(0, UI.printBoard(MainApplication.runningMatch.getPieces()));
+                    GridPane board;
+                    // This code convert the modified chess board to a grid pane
+                    if(showPossibleTiles){
+                        board = UI.printBoard(MainApplication.runningMatch.getPieces(), MainApplication.runningMatch.possibleMoves(UI.selectedOriginPiece));
+                    }else board = UI.printBoard(MainApplication.runningMatch.getPieces());
 
-                    // The screen has been updated, now the 'needs update' needs to be setted to false.
+                    // This code set it the child position 0 on the 'main frame' (screen).
+                    screen.getChildren().set(0, board);
+                    
+                    // The screen has been updated, now the variables 'needsUpdate' and 'showPossibleTiles' needs to be setted to false.
                     needsUpdate = false;
+                    showPossibleTiles = false; // Set to False, perhaps not necessary!
                 }
             }
         };

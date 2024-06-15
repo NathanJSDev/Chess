@@ -11,7 +11,8 @@ import javafx.scene.image.Image;
 public class Rook extends ChessPiece {
 
     public Rook(Board board, Color color) {
-        super(board, color, new Image(MainApplication.class.getResource(String.format("images/pieces/rook-%s.png",color.toString())).toString()));
+        super(board, color, new Image(MainApplication.class
+                .getResource(String.format("images/pieces/rook-%s.png", color.toString())).toString()));
     }
 
     @Override
@@ -21,67 +22,21 @@ public class Rook extends ChessPiece {
 
     // @Override
     // public boolean[][] possibleMoves() {
-    //     boolean[][] m = new boolean[getBoard().getRows()][getBoard().getColumns()];
-    //     Position p = new Position(0, 0);
-    //     System.out.println("--------------------------------------------------------------------------------");
-    //     System.out.println("--------------------------------------------------------------------------------");
-    //     System.out.println("--------------------------------------------------------------------------------");
+    // boolean[][] m = new boolean[getBoard().getRows()][getBoard().getColumns()];
+    // for (int i = 0; i < getBoard().getRows(); i++) {
+    // for (int j = 0; j < getBoard().getRows(); j++) {
+    // Position pos = new Position(i, j);
 
-    //     p.setValues(position.getRow() - 1, position.getColumn());
-    //     while (getBoard().positionExists(p) && !getBoard().ThereIsAPiece(p)) {
-    //         m[p.getRow()][p.getColumn()] = true;
-    //         p.setRow(p.getRow() - 1);
-    //         System.out.println(p);
-    //     }
-    //     if(getBoard().positionExists(p) && isThereAnOpponentPiece(p)){
-    //         m[p.getRow()][p.getColumn()] = true;
-    //         System.out.println(p);
-    //     }
-
-    //     System.out.println("--------------------------------------------------------------------------------");
-
-    //     p.setValues(position.getRow() + 1, position.getColumn());
-    //     while (getBoard().positionExists(p) && !getBoard().ThereIsAPiece(p)) {
-    //         m[p.getRow()][p.getColumn()] = true;
-    //         p.setRow(p.getRow() + 1);
-    //         System.out.println(p);
-    //     }
-    //     if(getBoard().positionExists(p) && isThereAnOpponentPiece(p)){
-    //         m[p.getRow()][p.getColumn()] = true;
-    //         System.out.println(p);
-    //     }
-
-    //     System.out.println("--------------------------------------------------------------------------------");
-
-    //     p.setValues(position.getRow(), position.getColumn() - 1);
-    //     while (getBoard().positionExists(p) && !getBoard().ThereIsAPiece(p)) {
-    //         m[p.getRow()][p.getColumn()] = true;
-    //         p.setColumn(p.getColumn() - 1);
-    //         System.out.println(p);
-    //     }
-    //     if(getBoard().positionExists(p) && isThereAnOpponentPiece(p)){
-    //         m[p.getRow()][p.getColumn()] = true;
-    //         System.out.println(p);
-    //     }
-
-    //     System.out.println("--------------------------------------------------------------------------------");
-
-    //     p.setValues(position.getRow(), position.getColumn() + 1);
-    //     while (getBoard().positionExists(p) && !getBoard().ThereIsAPiece(p)) {
-    //         m[p.getRow()][p.getColumn()] = true;
-    //         p.setColumn(p.getColumn() + 1);
-    //         System.out.println(p);
-    //     }
-    //     if(getBoard().positionExists(p) && isThereAnOpponentPiece(p)){
-    //         m[p.getRow()][p.getColumn()] = true;
-    //         System.out.println(p);
-    //     }
-
-    //     System.out.println("********************************************************************************");
-
-    //     return m;
+    // if ((pos.getRow() == position.getRow() && pos.getColumn() ==
+    // pos.getColumn())) {
+    // m[j][j] = true;
     // }
-    
+    // }
+    // }
+
+    // return m;
+    // }
+
     @Override
     public boolean[][] possibleMoves() {
         boolean[][] m = new boolean[getBoard().getRows()][getBoard().getColumns()];
@@ -92,21 +47,18 @@ public class Rook extends ChessPiece {
         int aboveLimit = 0;
         int belowLimit = getBoard().getColumns();
 
-
         // right
         p.setValues(position.getRow() + 1, position.getColumn());
         if (getBoard().positionExists(p) && p.getRow() < rightLimit) {
             for (int i = p.getRow(); i < rightLimit; i++) {
-                if (getBoard().positionExists(p)) {
-                    if (getBoard().ThereIsAPiece(p)) break;
+                if (getBoard().positionExists(p) && !getBoard().ThereIsAPiece(p)) {
                     m[p.getRow()][p.getColumn()] = true;
                     p.setRow(i);
-                } else{
+                } else if (getBoard().positionExists(p) && isThereAnOpponentPiece(p)) {
                     m[p.getRow()][p.getColumn()] = true;
-                    break;
                 }
             }
-            if (getBoard().positionExists(p) && isThereAnOpponentPiece(p)) {
+            if (getBoard().positionExists(p) && (isThereAnOpponentPiece(p) || !getBoard().ThereIsAPiece(p))) {
                 m[p.getRow()][p.getColumn()] = true;
             }
         }
@@ -115,47 +67,47 @@ public class Rook extends ChessPiece {
         p.setValues(position.getRow() - 1, position.getColumn());
         if (getBoard().positionExists(p)) {
             for (int i = p.getRow(); i >= leftLimit; i--) {
-                if (getBoard().positionExists(p)) {
-                    if (getBoard().ThereIsAPiece(p))
-                        break;
+                if (getBoard().positionExists(p) && !getBoard().ThereIsAPiece(p)) {
                     m[p.getRow()][p.getColumn()] = true;
                     p.setRow(i);
-                } else
-                    break;
+
+                } else if (getBoard().positionExists(p) && isThereAnOpponentPiece(p)) {
+                    m[p.getRow()][p.getColumn()] = true;
+                }
             }
-            if (getBoard().positionExists(p) && isThereAnOpponentPiece(p)) {
+            if (getBoard().positionExists(p) && (isThereAnOpponentPiece(p) || !getBoard().ThereIsAPiece(p))) {
                 m[p.getRow()][p.getColumn()] = true;
             }
         }
 
+        // above
         p.setValues(position.getRow(), position.getColumn() - 1);
         if (getBoard().positionExists(p)) {
             for (int i = p.getColumn(); i >= aboveLimit; i--) {
-                if (getBoard().positionExists(p)) {
-                    if (getBoard().ThereIsAPiece(p)) break;
+                if (getBoard().positionExists(p) && !getBoard().ThereIsAPiece(p)) {
                     m[p.getRow()][p.getColumn()] = true;
                     p.setColumn(i);
-                } else
-                    break;
+                } else if (getBoard().positionExists(p) && isThereAnOpponentPiece(p)) {
+                    m[p.getRow()][p.getColumn()] = true;
+                }
             }
-            if (getBoard().positionExists(p) && isThereAnOpponentPiece(p)) {
+            if (getBoard().positionExists(p) && (isThereAnOpponentPiece(p) || !getBoard().ThereIsAPiece(p))) {
                 m[p.getRow()][p.getColumn()] = true;
             }
         }
 
+        // below
         p.setValues(position.getRow(), position.getColumn() + 1);
         if (getBoard().positionExists(p) && p.getColumn() < belowLimit) {
             for (int i = p.getColumn(); i < belowLimit; i++) {
-                if (getBoard().positionExists(p)) {
-                    if (getBoard().ThereIsAPiece(p)) break;
+                if (getBoard().positionExists(p) && !getBoard().ThereIsAPiece(p)) {
                     m[p.getRow()][p.getColumn()] = true;
                     p.setColumn(i);
-                } else {
+                } else if (getBoard().positionExists(p) && isThereAnOpponentPiece(p)) {
                     m[p.getRow()][p.getColumn()] = true;
-                    break;
                 }
             }
-            if (getBoard().positionExists(p) && isThereAnOpponentPiece(p)) {
+            if (getBoard().positionExists(p) && (isThereAnOpponentPiece(p) || !getBoard().ThereIsAPiece(p))) {
                 m[p.getRow()][p.getColumn()] = true;
             }
         }

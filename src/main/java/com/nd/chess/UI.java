@@ -1,11 +1,7 @@
 package com.nd.chess;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 import com.nd.chess.boardgame.Position;
 import com.nd.chess.chess.ChessPiece;
-import com.nd.chess.chess.ChessPosition;
 import com.nd.chess.views.MainController;
 
 import javafx.geometry.Pos;
@@ -181,16 +177,4 @@ public final class UI {
         return r;
     }
 
-    public static ChessPosition readChessPosition(Scanner sc) {
-        try {
-            String s = sc.nextLine();
-
-            char column = s.charAt(0);
-            int row = (int) s.charAt(1);
-
-            return new ChessPosition(column, row);
-        } catch (Exception e) {
-            throw new InputMismatchException("Error reading ChessPosition: Valid values are form 'a1' to 'h8'");
-        }
-    }
 }

@@ -42,6 +42,7 @@ public class MainController implements Initializable{
         AnimationTimer at = new AnimationTimer() {
             @Override
             public void handle(long arg0) {
+                try{
                 // This variable are updated on a board tile is clicked
                 if(needsUpdate){
                     GridPane board;
@@ -57,6 +58,7 @@ public class MainController implements Initializable{
                     needsUpdate = false;
                     showPossibleTiles = false; // Set to False, perhaps not necessary!
                 }
+                }catch(Exception e){needsUpdate=false;showPossibleTiles=false;System.out.println(e.getMessage());}
             }
         };
 

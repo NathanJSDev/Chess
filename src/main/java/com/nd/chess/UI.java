@@ -1,8 +1,12 @@
 package com.nd.chess;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 import com.nd.chess.boardgame.Position;
 import com.nd.chess.chess.ChessPiece;
-import com.nd.chess.views.MainController;
+import com.nd.chess.views.GameController;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -15,6 +19,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public final class UI {
@@ -22,12 +27,8 @@ public final class UI {
     public static Position selectedOriginPiece;
     public static ChessPiece currentCapturedPiece;
 
-    public static GridPane lastUpdatedPane;
-
     public static GridPane printBoard(ChessPiece[][] pieces) {
         GridPane pane = new GridPane();
-        // pane.setGridLinesVisible(true);
-        pane.setStyle("-fx-background-color:#acd700;");
         String style = "";
 
         for (int i = 0; i < pieces.length; i++) {
@@ -40,21 +41,23 @@ public final class UI {
                 pane.add(printPiece(pieces[i][j], style, position), i, j);
             }
         }
-        lastUpdatedPane = pane;
         return pane;
     }
 
     public static GridPane printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
         GridPane pane = new GridPane();
-        pane.setStyle("-fx-background-color:#00acd7;");
 
         String style = "";
 
         for (int i = 0; i < pieces.length; i++) {
             for (int j = 0; j < pieces[i].length; j++) {
+                Position position = new Position(i, j);
 
                 if (pieces[i][j] != null && !possibleMoves[i][j]) {
-                    style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0, MainApplication.c1, pieces[i][j].getColor());
+                    if (position == selectedOriginPiece) {
+                        style = setStyle(MainApplication.bgs, MainApplication.c0);
+                    } else
+                        style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0,MainApplication.c1, pieces[i][j].getColor());
                 } else if (pieces[i][j] == null && !possibleMoves[i][j]) {
                     style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0, MainApplication.c1, com.nd.chess.chess.Color.BLACK);
                 } else if (pieces[i][j] != null && possibleMoves[i][j]) {
@@ -63,11 +66,9 @@ public final class UI {
                     style = setStyle(MainApplication.bgma, MainApplication.c0);
                 }
 
-                Position position = new Position(i, j);
                 pane.add(printPiece(pieces[i][j], style, position), i, j);
             }
         }
-        lastUpdatedPane = pane;
         return pane;
     }
 
@@ -104,8 +105,7 @@ public final class UI {
             Button rt = new Button();
             rt.setStyle(style);
             rt.alignmentProperty().set(Pos.CENTER);
-            rt.setBorder(new Border(
-                    new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            rt.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             rt.setPrefWidth(100);
             rt.setPrefHeight(100);
             rt.setMaxWidth(100);
@@ -113,22 +113,31 @@ public final class UI {
             rt.setOnMouseClicked(e -> {
                 if (selectedOriginPiece == null || selectedOriginPiece == position) {
                     selectedOriginPiece = position;
-                    rt.setStyle("-fx-background-color:"+MainApplication.bgs+";");
-
-                    MainController.showPossibleTiles = true;
-                    MainController.needsUpdate = true;
+                    GameController.showPossibleTiles = true;
+                    GameController.needsUpdate = true;
                 } else {
                     rt.setStyle(style);
-
                     try {
-                        currentCapturedPiece = MainApplication.runningMatch.performChessMove(selectedOriginPiece,
-                                position);
+                        currentCapturedPiece = MainApplication.runningMatch.performChessMove(selectedOriginPiece,position);
+                        if (currentCapturedPiece != null)
+                            GameController.captured.add(currentCapturedPiece);
                     } catch (Exception error) {
                         System.out.println(error.getMessage());
+                        GameController.needsUpdate = true;
                     }
-
                     selectedOriginPiece = null;
-                    MainController.needsUpdate = true;
+                    GameController.needsUpdate = true;
+                }
+            });
+
+            rt.setOnMouseEntered(e -> {
+                if ((selectedOriginPiece == null || selectedOriginPiece == position)&& MainApplication.runningMatch.isYourTurn(position)) {
+                    rt.setStyle("-fx-background-color:" + MainApplication.bgs + ";");
+                }
+            });
+            rt.setOnMouseExited(e -> {
+                if ((selectedOriginPiece == null || selectedOriginPiece == position)&& MainApplication.runningMatch.isYourTurn(position)) {
+                    rt.setStyle(style);
                 }
             });
 
@@ -150,8 +159,7 @@ public final class UI {
             Button rt = new Button();
             rt.setStyle(style);
             rt.alignmentProperty().set(Pos.CENTER);
-            rt.setBorder(new Border(
-                    new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            rt.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             rt.setPrefWidth(100);
             rt.setPrefHeight(100);
             rt.setMaxWidth(100);
@@ -159,16 +167,16 @@ public final class UI {
             rt.setOnMouseClicked(e -> {
                 if (selectedOriginPiece != null) {
                     rt.setStyle(style);
-                    
                     try {
-                        currentCapturedPiece = MainApplication.runningMatch.performChessMove(selectedOriginPiece,
-                                position);
+                        currentCapturedPiece = MainApplication.runningMatch.performChessMove(selectedOriginPiece,position);
+                        if (currentCapturedPiece != null)
+                            GameController.captured.add(currentCapturedPiece);
                     } catch (Exception error) {
                         System.out.println(error.getMessage());
+                        GameController.needsUpdate = true;
                     }
-
                     selectedOriginPiece = null;
-                    MainController.needsUpdate = true;
+                    GameController.needsUpdate = true;
                 }
             });
             r.getChildren().add(rt);
@@ -177,4 +185,41 @@ public final class UI {
         return r;
     }
 
+    private static List<ChessPiece>[] filterCapturedPieces(List<ChessPiece> pieces) {
+        @SuppressWarnings("unchecked")
+        List<ChessPiece>[] capturedPieces = new ArrayList[2];
+        capturedPieces[0] = pieces.stream().filter(el -> el.getColor() == com.nd.chess.chess.Color.WHITE).collect(Collectors.toList());
+        capturedPieces[1] = pieces.stream().filter(el -> el.getColor() == com.nd.chess.chess.Color.BLACK).collect(Collectors.toList());
+        return capturedPieces;
+    }
+
+    public static List<VBox> printWhiteCapturedPieces(List<ChessPiece> captured) {
+        List<VBox> pieceImages = new ArrayList<>();
+        captured = filterCapturedPieces(captured)[0];
+        for (int i = 0; i < captured.size(); i++) {
+            ImageView iv = new ImageView(captured.get(i).getImg());
+            iv.setFitWidth(30);
+            iv.setFitHeight(30);
+            VBox vb = new VBox(iv);
+            vb.setPrefWidth(100);
+            vb.setPrefHeight(20);
+            pieceImages.add(vb);
+        }
+        return pieceImages;
+    }
+
+    public static List<VBox> printBlackCapturedPieces(List<ChessPiece> captured) {
+        List<VBox> pieceImages = new ArrayList<>();
+        captured = filterCapturedPieces(captured)[1];
+        for (int i = 0; i < captured.size(); i++) {
+            ImageView iv = new ImageView(captured.get(i).getImg());
+            iv.setFitWidth(30);
+            iv.setFitHeight(30);
+            VBox vb = new VBox(iv);
+            vb.setPrefWidth(100);
+            vb.setPrefHeight(20);
+            pieceImages.add(vb);
+        }
+        return pieceImages;
+    }
 }

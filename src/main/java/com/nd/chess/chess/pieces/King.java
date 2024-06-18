@@ -48,7 +48,6 @@ public class King extends ChessPiece {
         // below
         pos = new Position(position.getRow(), position.getColumn() + 1);
         if (getBoard().positionExists(pos) && pos.getColumn() < getBoard().getColumns()) {
-            System.out.println("below");
             if (!getBoard().ThereIsAPiece(pos) || isThereAnOpponentPiece(pos)) {
                 m[pos.getRow()][pos.getColumn()] = true;
             }

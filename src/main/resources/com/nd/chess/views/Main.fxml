@@ -10,9 +10,6 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="900.0" styleClass="background" stylesheets="@styles/Main.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nd.chess.views.GameController">
-   <center>
-      <VBox fx:id="screen" alignment="CENTER" prefHeight="800.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
-   </center>
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="10.0" styleClass="menu" BorderPane.alignment="CENTER">
          <children>
@@ -104,4 +101,11 @@
          </padding>
       </VBox>
    </left>
+   <center>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="screen" alignment="CENTER" prefHeight="800.0" prefWidth="800.0" HBox.hgrow="NEVER" />
+         </children>
+      </HBox>
+   </center>
 </BorderPane>

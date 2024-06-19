@@ -16,6 +16,8 @@ public class MainApplication extends Application {
 
     public static ChessMatch runningMatch;
 
+    public static Stage main;
+
     // background tile colors
     public static String bg0 = "#ebeed3"; // recomended "#ffd599", "#ebeed3", "#ffffff", "#ffffff"
     public static String bg1 = "#739654"; // recomended "#b16e41", "#739654", "#787878", "#c76f0c"
@@ -35,11 +37,16 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        scenes = new Scene[2];
+        scenes[0] = getScene("views/Menu.fxml");
+        scenes[1] = getScene("views/Main.fxml");
+
         stage.setTitle("Chess");
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/logo.jpg")));
-        stage.setScene(getScene("views/Main.fxml"));
-        // stage.setResizable(false);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/32.png")));
+        stage.setScene(scenes[0]);
         stage.show();
+
+        main = stage;
     }
 
     public static void main(String[] args) {

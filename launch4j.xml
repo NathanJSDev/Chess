@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>D:\Windows\Usuarios\Nathan\Projects\At Work\Java - JavaFx\Chess\Chess.jar</jar>
+  <outfile>D:\Windows\Usuarios\Nathan\Projects\At Work\Java - JavaFx\Chess\ChessMasters.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>true</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>D:\Windows\Usuarios\Nathan\Downloads\500.ico</icon>
+  <singleInstance>
+    <mutexName>ChessMasters1.0.0-build001-190624</mutexName>
+    <windowTitle>Chess Masters</windowTitle>
+  </singleInstance>
+  <jre>
+    <path>%JAVA_HOME%;%PATH%</path>
+    <requiresJdk>false</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion></minVersion>
+    <maxVersion></maxVersion>
+  </jre>
+  <versionInfo>
+    <fileVersion>1.0.0.0</fileVersion>
+    <txtFileVersion>1.0.0.0</txtFileVersion>
+    <fileDescription>Simple Chess system</fileDescription>
+    <copyright>No</copyright>
+    <productVersion>1.0.0.0</productVersion>
+    <txtProductVersion>1.0.0.0</txtProductVersion>
+    <productName>Chess Masters</productName>
+    <companyName>NathanSDC</companyName>
+    <internalName>Chess</internalName>
+    <originalFilename>Chess.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>ENGLISH_US</language>
+  </versionInfo>
+</launch4jConfig>

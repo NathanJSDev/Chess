@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.nd.chess.boardgame.Position;
 import com.nd.chess.chess.ChessPiece;
+import com.nd.chess.chess.pieces.King;
 import com.nd.chess.views.GameController;
 
 import javafx.geometry.Pos;
@@ -33,7 +34,9 @@ public final class UI {
 
         for (int i = 0; i < pieces.length; i++) {
             for (int j = 0; j < pieces[i].length; j++) {
-                if(pieces[i][j]!=null){
+                if(pieces[i][j]!=null && ((pieces[i][j].getColor()==MainApplication.runningMatch.getCurrentPlayer()) && pieces[i][j] instanceof King) && MainApplication.runningMatch.isCheck()){
+                    style = setStyle(MainApplication.bgma_, MainApplication.c0);
+                }else if(pieces[i][j]!=null){
                     style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0, MainApplication.c1, pieces[i][j].getColor());
                 }else style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0, MainApplication.c1, com.nd.chess.chess.Color.BLACK);
                 Position position = new Position(i, j);
@@ -53,15 +56,18 @@ public final class UI {
             for (int j = 0; j < pieces[i].length; j++) {
                 Position position = new Position(i, j);
 
-                if (pieces[i][j] != null && !possibleMoves[i][j]) {
+                if(pieces[i][j]!=null && (pieces[i][j].getColor()==MainApplication.runningMatch.getCurrentPlayer()) && MainApplication.runningMatch.isCheck()){
+                    style = setStyle(MainApplication.bgma_, MainApplication.c0);
+                }else if (pieces[i][j] != null && !possibleMoves[i][j]) {
                     if (position == selectedOriginPiece) {
                         style = setStyle(MainApplication.bgs, MainApplication.c0);
-                    } else
+                    } else{
                         style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0,MainApplication.c1, pieces[i][j].getColor());
+                    }
                 } else if (pieces[i][j] == null && !possibleMoves[i][j]) {
                     style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0, MainApplication.c1, com.nd.chess.chess.Color.BLACK);
                 } else if (pieces[i][j] != null && possibleMoves[i][j]) {
-                    style = setStyle(MainApplication.bgmao, MainApplication.c0);
+                    style = setStyle(MainApplication.bgma_, MainApplication.c0);
                 } else {
                     style = setStyle(MainApplication.bgma, MainApplication.c0);
                 }
@@ -123,10 +129,10 @@ public final class UI {
                             GameController.captured.add(currentCapturedPiece);
                     } catch (Exception error) {
                         System.out.println(error.getMessage());
+                    }finally{
+                        selectedOriginPiece = null;
                         GameController.needsUpdate = true;
                     }
-                    selectedOriginPiece = null;
-                    GameController.needsUpdate = true;
                 }
             });
 
@@ -174,9 +180,10 @@ public final class UI {
                     } catch (Exception error) {
                         System.out.println(error.getMessage());
                         GameController.needsUpdate = true;
+                    }finally{
+                        selectedOriginPiece = null;
+                        GameController.needsUpdate = true;
                     }
-                    selectedOriginPiece = null;
-                    GameController.needsUpdate = true;
                 }
             });
             r.getChildren().add(rt);

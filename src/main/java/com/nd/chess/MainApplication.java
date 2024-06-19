@@ -24,9 +24,9 @@ public class MainApplication extends Application {
     // background tile color : on selected
     public static String bgs = "#75b2e9"; // recomended "#75b2e9", "#75b2e9", "#00acd7", "#00acd7"
     // background tile color : on can move to free tile
-    public static String bgma = "#75b2e9"; // recomended "#00acd7", "#00acd7", "#24a540", "#24a540"
-    // background tile color : on can move to oponent
-    public static String bgmao = "#de0033"; // recomended "#de0033", "#de0033", "#de0033", "#de0033"
+    public static String bgma = "#f6f76d"; // recomended "#00acd7", "#00acd7", "#24a540", "#24a540"
+    // background tile color : on can move to oponent or the king is checked
+    public static String bgma_ = "#e53d3e"; // recomended "#de0033", "#de0033", "#de0033", "#de0033"
     // on tile text colors
     public static String c0 = "#ffffff"; // recomended "#ffffff"
     public static String c1 = "#000000"; // recomended "#000000"

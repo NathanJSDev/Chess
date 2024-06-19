@@ -54,13 +54,13 @@ public class GameController implements Initializable {
          */
         ChessMatch cm = new ChessMatch();
 
-        // This code first convert the chess board to a grid pane and after
-        // adds it to the 'main frame' at the child position 0.
-        screen.getChildren().add(0, UI.printBoard(cm.getPieces()));
-
         // It only publish the current chess match on the main class to be used by any
         // other classes like UI
         MainApplication.runningMatch = cm;
+
+        // This code first convert the chess board to a grid pane and after
+        // adds it to the 'main frame' at the child position 0.
+        screen.getChildren().add(0, UI.printBoard(cm.getPieces()));
 
         // Sets the first data on the displays.
         turnCount.setText("" + cm.getTurn());

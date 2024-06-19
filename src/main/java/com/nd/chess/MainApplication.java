@@ -12,8 +12,6 @@ import com.nd.chess.chess.ChessMatch;
 
 public class MainApplication extends Application {
 
-    public static Scene[] scenes;
-
     public static ChessMatch runningMatch;
 
     public static Stage main;
@@ -31,19 +29,15 @@ public class MainApplication extends Application {
     public static String c0 = "#ffffff"; // recomended "#ffffff"
     public static String c1 = "#000000"; // recomended "#000000"
 
-    public Scene getScene(String name) throws IOException{
+    public static Scene getScene(String name) throws IOException{
         return new Scene(FXMLLoader.load(MainApplication.class.getResource(name)));
     }
 
     @Override
     public void start(Stage stage) throws IOException {
-        scenes = new Scene[2];
-        scenes[0] = getScene("views/Menu.fxml");
-        scenes[1] = getScene("views/Main.fxml");
-
         stage.setTitle("Chess");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("images/32.png")));
-        stage.setScene(scenes[0]);
+        stage.setScene(getScene("views/Menu.fxml"));
         stage.show();
 
         main = stage;

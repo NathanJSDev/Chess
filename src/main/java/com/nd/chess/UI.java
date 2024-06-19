@@ -34,7 +34,7 @@ public final class UI {
 
         for (int i = 0; i < pieces.length; i++) {
             for (int j = 0; j < pieces[i].length; j++) {
-                if(pieces[i][j]!=null && ((pieces[i][j].getColor()==MainApplication.runningMatch.getCurrentPlayer()) && pieces[i][j] instanceof King) && MainApplication.runningMatch.isCheck()){
+                if(pieces[i][j]!=null && ((pieces[i][j].getColor()==MainApplication.runningMatch.getCurrentPlayer()) && pieces[i][j] instanceof King) && MainApplication.runningMatch.isCheck() && !MainApplication.runningMatch.isCheckMate()){
                     style = setStyle(MainApplication.bgma_, MainApplication.c0);
                 }else if(pieces[i][j]!=null){
                     style = setStyle(i, j, MainApplication.bg0, MainApplication.bg1, MainApplication.c0, MainApplication.c1, pieces[i][j].getColor());
@@ -56,7 +56,7 @@ public final class UI {
             for (int j = 0; j < pieces[i].length; j++) {
                 Position position = new Position(i, j);
 
-                if(pieces[i][j]!=null && (pieces[i][j].getColor()==MainApplication.runningMatch.getCurrentPlayer()) && MainApplication.runningMatch.isCheck()){
+                if(pieces[i][j]!=null && (pieces[i][j].getColor()==MainApplication.runningMatch.getCurrentPlayer()) && MainApplication.runningMatch.isCheck() && !MainApplication.runningMatch.isCheckMate()){
                     style = setStyle(MainApplication.bgma_, MainApplication.c0);
                 }else if (pieces[i][j] != null && !possibleMoves[i][j]) {
                     if (position == selectedOriginPiece) {

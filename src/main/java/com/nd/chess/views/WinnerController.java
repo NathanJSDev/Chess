@@ -7,14 +7,14 @@ import com.nd.chess.MainApplication;
 import com.nd.chess.UI;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.*;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
-public class MenuController implements Initializable{
+public class WinnerController implements Initializable{
 
     @FXML
-    void credits(ActionEvent event) {
-
-    }
+    private Label winner;
 
     @FXML
     void exit(ActionEvent event) {
@@ -22,8 +22,12 @@ public class MenuController implements Initializable{
     }
 
     @FXML
-    void open_game(ActionEvent event) {
-
+    void menu(ActionEvent event) {
+        try {
+            MainApplication.main.setScene(MainApplication.getScene("views/Menu.fxml"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @FXML
@@ -41,7 +45,9 @@ public class MenuController implements Initializable{
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        
+        String str = MainApplication.runningMatch.getCurrentPlayer().toString().toLowerCase();
+        str = str.substring(0, 1).toUpperCase() + str.substring(1, str.length());
+        winner.setText(str);
     }
 
 }

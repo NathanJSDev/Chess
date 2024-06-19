@@ -45,6 +45,9 @@ public class GameController implements Initializable {
 
     public static boolean showPossibleTiles = false;
 
+    private static boolean broken = false;
+    int control = 0;
+
     public static List<ChessPiece> captured = new ArrayList<>();
 
     @Override
@@ -96,6 +99,21 @@ public class GameController implements Initializable {
 
                         capturedPieces_White.getChildren().setAll(UI.printWhiteCapturedPieces(captured));
                         capturedPieces_Black.getChildren().setAll(UI.printBlackCapturedPieces(captured));
+
+                        if (MainApplication.runningMatch.isCheckMate() && control <= 1) {
+                            control++;
+                            broken = true;
+                            needsUpdate = true;
+                            screen.setDisable(true);
+                        }
+                    }
+
+                    if (broken && control == 2) {
+                        control++;
+                        Thread.sleep(3000);
+                        MainApplication.main.setScene(MainApplication.getScene("views/Winner.fxml"));
+                        stop();
+                        stop();
                     }
                 } catch (Exception e) {
                     needsUpdate = false;

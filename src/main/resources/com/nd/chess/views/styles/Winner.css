@@ -1,0 +1,12 @@
+.background{
+    -fx-background-color: #3c3c3c;
+    background-color: #3c3c3c;
+}
+
+.button{
+    -fx-background-color: #739654;
+    background-color: #739654;
+    -fx-pref-height: 30;
+    -fx-pref-width: 150;
+    -fx-text-fill: #fff;
+}

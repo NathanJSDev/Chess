@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.nd.chess.boardgame.Board;
 import com.nd.chess.boardgame.Piece;
 import com.nd.chess.boardgame.Position;
+import com.nd.chess.chess.pieces.Bishop;
 import com.nd.chess.chess.pieces.King;
 import com.nd.chess.chess.pieces.Pawn;
 import com.nd.chess.chess.pieces.Rook;
@@ -209,10 +210,10 @@ public class ChessMatch {
         // WHITE PIECES
         placePiece(new Rook(board, Color.WHITE), new Position(0, 7));
         // placePiece(new Knight(board, Color.WHITE), new Position(1, 7));
-        // placePiece(new Bishop(board, Color.WHITE), new Position(2, 7));
+        placePiece(new Bishop(board, Color.WHITE), new Position(2, 7));
         // placePiece(new Queen(board, Color.WHITE), new Position(3, 7));
         placePiece(new King(board, Color.WHITE), new Position(4, 7));
-        // placePiece(new Bishop(board, Color.WHITE), new Position(5, 7));
+        placePiece(new Bishop(board, Color.WHITE), new Position(5, 7));
         // placePiece(new Knight(board, Color.WHITE), new Position(6, 7));
         placePiece(new Rook(board, Color.WHITE), new Position(7, 7));
 
@@ -228,10 +229,10 @@ public class ChessMatch {
         // BLACK PIECES
         placePiece(new Rook(board, Color.BLACK), new Position(0, 0));
         // placePiece(new Knight(board, Color.BLACK), new Position(1, 0));
-        // placePiece(new Bishop(board, Color.BLACK), new Position(2, 0));
+        placePiece(new Bishop(board, Color.BLACK), new Position(2, 0));
         // placePiece(new Queen(board, Color.BLACK), new Position(3, 0));
         placePiece(new King(board, Color.BLACK), new Position(4, 0));
-        // placePiece(new Bishop(board, Color.BLACK), new Position(5, 0));
+        placePiece(new Bishop(board, Color.BLACK), new Position(5, 0));
         // placePiece(new Knight(board, Color.BLACK), new Position(6, 0));
         placePiece(new Rook(board, Color.BLACK), new Position(7, 0));
 

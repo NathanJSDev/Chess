@@ -56,7 +56,7 @@ public final class UI {
             for (int j = 0; j < pieces[i].length; j++) {
                 Position position = new Position(i, j);
 
-                if(pieces[i][j]!=null && (pieces[i][j].getColor()==MainApplication.runningMatch.getCurrentPlayer()) && MainApplication.runningMatch.isCheck() && !MainApplication.runningMatch.isCheckMate()){
+                if(pieces[i][j]!=null && ((pieces[i][j].getColor()==MainApplication.runningMatch.getCurrentPlayer()) && pieces[i][j] instanceof King) && MainApplication.runningMatch.isCheck() && !MainApplication.runningMatch.isCheckMate()){
                     style = setStyle(MainApplication.bgma_, MainApplication.c0);
                 }else if (pieces[i][j] != null && !possibleMoves[i][j]) {
                     if (position == selectedOriginPiece) {

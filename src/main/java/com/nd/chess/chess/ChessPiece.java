@@ -12,6 +12,8 @@ public abstract class ChessPiece extends Piece {
 
     private Image img;
 
+    private int moveCount;
+
     public ChessPiece() {
     }
 
@@ -27,6 +29,18 @@ public abstract class ChessPiece extends Piece {
 
     public Image getImg() {
         return img;
+    }
+
+    public int getMoveCount() {
+        return moveCount;
+    }
+
+    public void increaseMoveCount(){
+        moveCount++;
+    }
+
+    public void decreaseMoveCount(){
+        moveCount--;
     }
 
     public Position getPosition(){
